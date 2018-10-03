@@ -19,3 +19,4 @@ describe DockingStation do
     expect(bike).to be_working
   end
 end
+#
