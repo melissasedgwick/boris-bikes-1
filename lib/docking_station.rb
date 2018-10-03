@@ -10,6 +10,11 @@ class DockingStation
     @bike = bike
   end
 
+<<<<<<< HEAD
 attr_reader :bike
 
+=======
+  attr_reader :bike
+>>>>>>> 6cb00e1
 end
+#
