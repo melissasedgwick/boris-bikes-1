@@ -7,10 +7,12 @@ describe DockingStation do
     @docking_station = DockingStation.new
     @bike = Bike.new
   end
+
   it { is_expected.to respond_to :release_bike }
+
   describe '#release_bike' do
     it 'releases a bike' do
-      subject.dock(@bike)
+      subject.dock double(:bike)
       expect(subject.release_bike).to eq "Bike released"
     end
     it 'raises an error when there are no bikes available' do
@@ -19,19 +21,21 @@ describe DockingStation do
   end
 
   it 'releases working bikes' do
-    expect(@bike).to be_working
+    expect double(:bike).to be_working
   end
+
   it 'docks something' do
-    expect(subject.dock(@bike)).to eq "Bike docked"
+    expect(subject.dock double(:bike)).to eq "Bike docked"
   end
+
   it 'returns docked bikes' do
-    subject.dock(@bike)
+    subject.dock double(:bike)
     expect(subject.bike).to eq @bikes
   end
 
   it "returns error when a docking station is full" do
     DockingStation::DEFAULT_CAPACITY.times { @docking_station.dock Bike.new }
-    expect {@docking_station.dock(@bike)}.to raise_error "Docking Station is full"
+    expect {@docking_station.dock double(:bike)}.to raise_error "Docking Station is full"
   end
 
   it "has a default capactity of 20" do
@@ -43,11 +47,11 @@ describe DockingStation do
   end
 
   it "accepts a second parameter to determine bike condition" do
-    expect(@docking_station.dock(@bike, "broken")).to eq "Faulty bike reported"
+    expect(@docking_station.dock(double(:bike), "broken")).to eq "Faulty bike reported"
   end
 
   it "raises an error when trying to release a broken bike" do
-    @docking_station.dock(@bike, "broken")
+    @docking_station.dock(double(:bike), "broken")
     expect{@docking_station.release_bike}.to raise_error "No bikes available"
   end
 end
