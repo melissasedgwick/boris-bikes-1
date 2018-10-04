@@ -41,4 +41,13 @@ describe DockingStation do
   it "allows the capacity to be set to 60 for new docking stations" do
     expect(DockingStation.new(60).capacity).to eq(60)
   end
+
+  it "accepts a second parameter to determine bike condition" do
+    expect(@docking_station.dock(@bike, "broken")).to eq "Faulty bike reported"
+  end
+
+  it "raises an error when trying to release a broken bike" do
+    @docking_station.dock(@bike, "broken")
+    expect{@docking_station.release_bike}.to raise_error "No bikes available"
+  end
 end

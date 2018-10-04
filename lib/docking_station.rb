@@ -1,24 +1,15 @@
 require_relative 'bike'
-#class Bikes
-#  attr_reader :capacity
-#  attr_reader :bikes
-#  def initialize
-#    @capacity = 20
-#    $bikes = []
-#  end
-#end
 
 
 class DockingStation
+
   DEFAULT_CAPACITY = 20
+  attr_accessor :bike, :capacity
+
   def initialize(capacity = DEFAULT_CAPACITY)
     @bikes = []
     @capacity = capacity
   end
-  attr_accessor :bike, :capacity
-#  def initialize
-#    :capacity = 20
-#  end
 
   def release_bike
     fail 'No bikes available' if empty?
@@ -26,10 +17,15 @@ class DockingStation
     "Bike released"
   end
 
-  def dock(bike)
+  def dock(bike, status = "working")
     fail 'Docking Station is full' if full?
     @bikes << bike
-    "Bike docked"
+    if status == "broken"
+      $bike_status = false
+      "Faulty bike reported"
+    else
+      "Bike docked"
+    end
   end
 private
   def full?
@@ -37,6 +33,11 @@ private
   end
 
   def empty?
-    @bikes.count == 0
+    if @bikes.count == 0
+      return true
+    else
+      @bikes.each { |bike| return false if bike.working? }
+    end
+    return true
   end
 end

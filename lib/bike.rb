@@ -1,5 +1,10 @@
 class Bike
+
+  def initialize
+    $bike_status = true
+  end
+
   def working?
-    true
+    return $bike_status
   end
 end
