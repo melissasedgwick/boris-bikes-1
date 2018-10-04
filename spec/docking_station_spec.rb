@@ -3,6 +3,8 @@ require 'docking_station.rb'
 
 describe DockingStation do
 
+  let(:bike) { double :bike }
+
   before(:each) do
     @docking_station = DockingStation.new
     @bike = Bike.new
@@ -12,7 +14,8 @@ describe DockingStation do
 
   describe '#release_bike' do
     it 'releases a bike' do
-      subject.dock double(:bike)
+      allow(bike).to receive(:working?).and_return(true)
+      subject.dock(bike)
       expect(subject.release_bike).to eq "Bike released"
     end
     it 'raises an error when there are no bikes available' do
@@ -21,7 +24,8 @@ describe DockingStation do
   end
 
   it 'releases working bikes' do
-    expect double(:bike).to be_working
+    allow(bike).to receive(:working?).and_return(true)
+    expect(bike).to be_working
   end
 
   it 'docks something' do
@@ -51,7 +55,8 @@ describe DockingStation do
   end
 
   it "raises an error when trying to release a broken bike" do
-    @docking_station.dock(double(:bike), "broken")
+    allow(bike).to receive(:working?).and_return(false)
+    @docking_station.dock(bike, "broken")
     expect{@docking_station.release_bike}.to raise_error "No bikes available"
   end
 end
